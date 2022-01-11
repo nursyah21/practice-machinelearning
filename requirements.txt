@@ -1,0 +1,5 @@
+numpy
+Flask
+tensorflow-cpu
+matplotlib
+gunicorn
