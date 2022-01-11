@@ -1,27 +1,30 @@
 # forPractice
-
-# activate conda environment
-conda_activate
-
-# for run in development environment (debug / watchdog)
-export FLASK_ENV=development
-
-# for run in production environment (non debug/default)
-export FLASK_ENV=production
+look demo website : <a href="https://forpractice-nursyah.herokuapp.com">forpractice-nursyah.herokuapp.com</a>
 
 
-# run if your app in app.py 
-$ flask run
+activate conda environment<br>
+conda_activate<br>
 
-# if your app in something app.py
-$ export FLASK_APP=something.py
 
-# remove to default
-$ unset FLASK_APP
+for run in development environment (debug / watchdog)<br>
+export FLASK_ENV=development<br>
 
-create template html in templates folder
-import static in static folder
+for run in production environment (non debug/default)<br>
+export FLASK_ENV=production<br>
 
-## all code meaning
-404 not found
-200 success
+
+run if your app in app.py <br>
+$ flask run<br>
+
+if your app in something app.py<br>
+$ export FLASK_APP=something.py<br>
+
+remove to default<br>
+$ unset FLASK_APP<br>
+
+create template html in templates folder<br>
+import static in static folder<br>
+
+all code meaning<br>
+404 not found<br>
+200 success<br>
