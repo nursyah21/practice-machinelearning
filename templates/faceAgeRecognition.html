@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>face age recognition</title>
+    <style>
+        body{
+            margin: 30px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+        a {
+            text-decoration: none;
+        }
+        @media only screen and (max-width: 400px){
+
+        }
+        
+        .face{
+            background-color: #8ae657;
+            color: white;
+            padding: 8px 45px;
+            border-radius: 60px;
+            /* cursor: pointer; */
+            user-select: none;
+            position: absolute;
+            margin-top: -4px;
+            z-index: 0;
+        }
+        
+        #predict{
+            background-color: #8ae657;
+            color: white;
+            border-radius: 60px;
+            border:none;
+            padding: 5px 20px;
+        }
+
+        #predict:hover{
+            background-color: #6de12f;
+        }
+
+        .faceAgebtn{
+            opacity: 0;
+            position: absolute;
+            z-index:1;
+            cursor: pointer;
+        }
+        #previewImage{
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+    <script src="/static/js/jquery.min.js"></script>
+    <script>
+        function readURL(input){
+            if(input.files && input.files[0]){
+                var reader = new FileReader();
+                reader.onload = function(e){
+                    $("#previewImage").attr("src", e.target.result)
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).ready(function(){
+            $("input[type='file']").change(function(e){
+                fileName = e.target.files[0].name;
+            })
+        })
+
+        $(document).ready(function(){
+            $("#predict").click(function(){
+                var formData = new FormData($("#uploadFile")[0]);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/faceAgeRecognitionPredict",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    async: true,
+                    success: function(data){
+                        $("#result img").attr("src", "/faceAgeRecognitionImage/predict_"+fileName)
+                        $("#result p").text(data);
+                    }
+                })
+            })
+        })
+    </script>
+
+</head>
+<body>
+    <h1><a href="/">Home</a> | Face Age Recognition</h1>
+    <form id="uploadFile" method="post" enctype="multipart/form-data">
+        <input type="file" name="face" class="faceAgebtn" onchange="readURL(this)" accept=".png, .jpg, .jpeg">
+        <label for="face" class="face">Browse face..</label>
+    </form>
+    <br><br>
+    <img src="#" alt="your image" id="previewImage">
+    <br><br>
+    <button id="predict">predict</button>
+    <br><br>
+    <div id="result">
+        <img src="#" alt="image predict">
+        <p></p>
+    </div>
+
+
+</body>
+</html>

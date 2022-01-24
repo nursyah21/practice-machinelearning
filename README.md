@@ -1,4 +1,5 @@
 # forPractice
+
 look demo website : <a href="https://forpractice-nursyah.herokuapp.com">forpractice-nursyah.herokuapp.com</a>
 
 
@@ -28,3 +29,10 @@ import static in static folder<br>
 all code meaning<br>
 404 not found<br>
 200 success<br>
+
+
+
+## need learning for building
+make button for input file
+create webcam capture
+create send link option for send picture

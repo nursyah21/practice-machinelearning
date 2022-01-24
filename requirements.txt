@@ -1,8 +1,8 @@
 numpy
 Flask
-tensorflow-cpu
+tensorflow
 matplotlib
 gunicorn
-gdown==3.10.1 --no-deps
-mtcnn==0.1.0 --no-deps
-deefpace==0.0.51 --no-deps
+gdown
+mtcnn
+deepface

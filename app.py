@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 import numpy as np
 from tensorflow.keras.preprocessing import image
@@ -51,13 +51,38 @@ def dogAndCat():
 	return "dog And Cat"
 
 
-from deepface import Deepface
+from deepface import DeepFace
 models = {}
-models["age"] = Deepface.build_model("Age")
+models["age"] = DeepFace.build_model("Age")
+from deepface.commons import functions
+import matplotlib.pyplot as plt
 
-@app.route("/faceAgeRecognigtion", method)
+@app.route("/faceAgeRecognition")
 def faceAgeRecognition():
-	pass
+	return render_template("faceAgeRecognition.html")
+
+@app.route("/faceAgeRecognitionPredict", methods=["GET","POST"])
+def faceAgeRecognitionPredict():
+	if request.method == "POST":
+		file = request.files["face"]
+		if file.filename == "":
+			return "no file detected"
+		filename = secure_filename(file.filename)
+		file.save("upload/" + filename)
+		img_analyze = DeepFace.analyze("upload/"+filename, actions=["age"], models = models, enforce_detection = False)
+		age_predict = img_analyze["age"]
+		img_predict = functions.preprocess_face("upload/"+filename, detector_backend = "mtcnn")[0]
+		plt.imsave("upload/predict_"+filename, img_predict[:, :, ::-1])
+		return "age predict: " + str(age_predict)
+
+
+@app.route("/faceAgeRecognitionImage/<image_name>")
+def faceAgeRecognitionImage(image_name):
+	try:
+		return send_from_directory("upload/", filename=image_name)
+		#return send_from_directory(app.config['UPLOAD_FOLDER'] , filename="predict_"+image_name)
+	except FileNotFoundError:
+		abort(404)
 
 if __name__ == "__main__":
 	app.run(threaded=True)

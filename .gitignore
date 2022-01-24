@@ -128,4 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# anything i don't want to put in github
 pass.txt
+upload/*
