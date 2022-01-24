@@ -3,3 +3,6 @@ Flask
 tensorflow-cpu
 matplotlib
 gunicorn
+gdown
+mtcnn
+deefpace

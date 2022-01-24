@@ -51,5 +51,13 @@ def dogAndCat():
 	return "dog And Cat"
 
 
+from deepface import Deepface
+models = {}
+models["age"] = Deepface.build_model("Age")
+
+@app.route("/faceAgeRecognigtion", method)
+def faceAgeRecognition():
+	pass
+
 if __name__ == "__main__":
 	app.run(threaded=True)
