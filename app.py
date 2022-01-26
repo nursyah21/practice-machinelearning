@@ -5,13 +5,14 @@ import numpy as np
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 from tensorflow.keras import Sequential, layers
+import tensorflow as tf
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "./upload"
 app.config['MAX-CONTENT-PATH'] = 2000 * 1000 * 1000
 app.config['SECRET_KEY'] = 'experiments'
 
-MnistModel = load_model("model/model.h5")
+MnistModel = load_model("model/fashion_mnist_model.h5")
 class_names = ['t-shirt/top','trouser','pullover','dress','coat','sandal','shirt','sneaker','bag','ankle boot']
 probability_model = Sequential([MnistModel, layers.Softmax()])
 
@@ -48,8 +49,27 @@ def detectMnistFashion():
 
 @app.route("/dogAndCat")
 def dogAndCat():
-	return "dog And Cat"
+	return render_template("dogAndCat.html")
 
+dogCatModel = load_model("model/cat_dog_model.h5")
+
+@app.route("/dogAndCatPredict", methods=["GET","POST"])
+def dogAndCatPredict():
+	if request.method == "POST":
+		file = request.files["file"]
+		if file.filename == "":
+			return "no file detected"
+		filename = secure_filename(file.filename)
+		file.save("upload/" + filename)
+
+		imageCatDog = tf.io.read_file("upload/"+filename)
+		imageCatDog = tf.image.decode_jpeg(imageCatDog, channels=3)
+		imageCatDog = tf.image.resize(imageCatDog, [192, 192])
+		imageCatDog /= 255
+		imageCatDog = tf.reshape(imageCatDog, (1, 192, 192, 3))
+
+		result = "cat" if dogCatModel.predict(imageCatDog)[0,0] >= 0.5 else "dog"
+		return "this is " + result
 
 from deepface import DeepFace
 models = {}

@@ -74,7 +74,7 @@
         $(document).ready(function(){
             $("#predict").click(function(){
                 var formData = new FormData($("#uploadFile")[0]);
-
+                $("#result p").text("please wait..");
                 $.ajax({
                     type: "POST",
                     url: "/faceAgeRecognitionPredict",
